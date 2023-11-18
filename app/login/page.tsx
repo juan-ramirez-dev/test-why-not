@@ -72,7 +72,7 @@ const Page = () => {
             />
 
             <CustomButton onClick={() => onLogin()} text='Sign In' />  
-            <p>Don't have an account? <a href="/register" className='text-secondary' >Register</a></p>
+            <p>Dont have an account? <a href="/register" className='text-secondary' >Register</a></p>
 
             <div className={style.lineBig} />
             <div className={style.lineLittle} />
