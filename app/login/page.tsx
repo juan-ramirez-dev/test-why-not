@@ -4,11 +4,14 @@ import React, { useState } from 'react'
 import Image from 'next/image';
 import loginImage from '@/public/login-poster.png'
 import { http } from '@/app/utils/http';
-
 import style from './page.module.css'
 import CustomButton from '../components/CustomButton/CustomButton';
 import CustomInput from '../components/CustomInput/CustomInput';
-
+import { useRouter } from 'next/navigation';
+import { LoginAction } from '../redux/features/authSlice';
+import { updateUserAction } from '../redux/features/userSlice';
+import { useAppDispatch } from '../redux/hooks';
+import Link from 'next/link';
 
 export interface IFormLoginInputs {
   email : string
@@ -17,15 +20,17 @@ export interface IFormLoginInputs {
 
 const Page = () => {
 
+  const dispatch = useAppDispatch()
+  const router = useRouter()
+  
   const [FormLoginInputs, updateFormLoginInputs] = useState <IFormLoginInputs>({
     email : '',
     password : ''
   })
 
   const onLogin = async () => {
-    
     const response = await http({
-      url : '/api/auth',
+      url : '/api/auth/login',
       method: 'POST',
       data : {
         password : FormLoginInputs?.password || '',
@@ -33,7 +38,12 @@ const Page = () => {
       }
     })
 
-    console.log('response', response)
+    if(response?.code === 200){
+      dispatch(LoginAction({isLoggedIn : true}))
+      dispatch(updateUserAction({...response?.response}))
+
+      router.push('/dashboard')
+    }
   }
 
   const onChange = (e : React.ChangeEvent<HTMLInputElement>) => {
@@ -53,6 +63,7 @@ const Page = () => {
             <h1 className='text-primary' > Login </h1>
             <br />
             <p>Please enter your credentials to continue</p>
+            <p>Dont have an account? <Link href="/register" className='text-secondary' >Register</Link></p>
           </div>
 
           <div className={style.loginContainerFormTextInputs} >
@@ -72,7 +83,6 @@ const Page = () => {
             />
 
             <CustomButton onClick={() => onLogin()} text='Sign In' />  
-            <p>Dont have an account? <a href="/register" className='text-secondary' >Register</a></p>
 
             <div className={style.lineBig} />
             <div className={style.lineLittle} />

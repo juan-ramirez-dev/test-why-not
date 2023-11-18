@@ -8,19 +8,23 @@ export interface ICustomInput {
   defaultValue ?: string
   name : string
   placeholder ?: string
+  label ? : string
 }
 
 const CustomInput = (props : ICustomInput) => {
   return (
-    <input 
-      type={props?.type} 
-      onChange={props?.onChange} 
-      name={props?.name}
-      value={props?.value}
-      defaultValue={props?.defaultValue}
-      className={style?.CustomInput}
-      placeholder={props?.placeholder}
-    />
+    <div className={style?.CustomInputContainer} >
+      <label> {props?.label} </label>
+      <input 
+        type={props?.type} 
+        onChange={props?.onChange} 
+        name={props?.name}
+        value={props?.value}
+        defaultValue={props?.defaultValue}
+        className={style?.CustomInput}
+        placeholder={props?.placeholder}
+      />
+    </div>
   );
 }
  

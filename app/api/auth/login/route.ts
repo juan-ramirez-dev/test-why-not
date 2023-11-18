@@ -3,6 +3,7 @@ import Users from '@/app/models/Users'
 
 //@INFO Utils
 import {dbConnect} from '@/app/utils/mongoose'
+import { createToken } from '@/app/utils/tokens';
 import { createResponseFailed , createResponseSuccess} from "@/app/utils/customResponses"
 
 //@INFO Next and libraries
@@ -38,6 +39,8 @@ export const POST = async (request : Request, res : Response) => {
   if(!is_same_password) return NextResponse.json(createResponseFailed({
     message : 'User not found.'
   }));
+
+  await createToken(user?._id)
 
   return NextResponse.json(createResponseSuccess({
     message : 'success',

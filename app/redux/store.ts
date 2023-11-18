@@ -4,7 +4,7 @@ import { configureStore } from "@reduxjs/toolkit";
 import authSlice from "./features/authSlice";
 import userSlice from "./features/userSlice";
 
-const local_state = localStorage.getItem('state')
+const local_state = typeof window !== 'undefined' ?  localStorage.getItem('state') : null
 const persistedState = local_state ? JSON.parse(local_state) : {}
 
 export const store = configureStore({

@@ -4,6 +4,7 @@ import Users from '@/app/models/Users'
 //@INFO Utils
 import {dbConnect} from '@/app/utils/mongoose'
 import { createResponseFailed , createResponseSuccess} from "@/app/utils/customResponses"
+import { createToken } from '@/app/utils/tokens';
 
 //@INFO Next and libraries
 import { NextResponse } from "next/server"
@@ -16,6 +17,7 @@ export interface IPOSTRequest {
   email : string
   password : string
   name : string
+  slug_rol ?: string
 }
 
 
@@ -45,6 +47,8 @@ export const POST = async (request : Request) => {
   }
 
   const new_user = await Users.create(new_user_params)
+
+  await createToken(user?._id)
 
   return NextResponse.json(createResponseSuccess({
     message : 'success',
