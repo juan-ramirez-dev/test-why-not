@@ -19,20 +19,6 @@ export interface IPOSTRequest {
 }
 
 
-export default async function handler(req : Request, res : Response) {
-  const { method } = req
-
-  switch (method) {
-    case "POST":
-      return await POST(req);
-    default:
-      return NextResponse.json(createResponseFailed({
-        message : 'Invalid method.'
-      }));
-  }
-}
-
-
 export const POST = async (request : Request) => {
 
   const params = await request.json() as IPOSTRequest
