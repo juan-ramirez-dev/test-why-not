@@ -1,0 +1,16 @@
+.CustomButton{
+  width: 100%;
+  height: 34px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid #18161E;
+  background: #18161E;
+  border-radius: 6px;
+}
+
+.CustomButtonText{
+  color: white;
+  margin: 0px;
+  font-weight: 800;
+}
