@@ -9,7 +9,7 @@ export const dbConnect = async () => {
   //@INFO: if connected is true, then return
   if(conn.isConnected) return 
 
-  const db = await connect(process.env.MONGO_URI!)
+  const db = await connect(process.env.MONGODB_URI!)
   conn.isConnected = db?.connections[0]?.readyState === 1 ? true : false
 }
 
