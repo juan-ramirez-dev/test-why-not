@@ -1,8 +1,10 @@
 import type { Metadata } from 'next'
+import dynamic from 'next/dynamic'
 import { Lexend } from 'next/font/google'
-import './globals.css'
 import { Providers } from './redux/provider'
-import Navbar from './components/Navbar/Navbar'
+const Navbar = dynamic(() => import('./components/Navbar/Navbar'), { ssr: false })
+
+import './globals.css'
 
 const font = Lexend({ subsets: ['latin'] })
 

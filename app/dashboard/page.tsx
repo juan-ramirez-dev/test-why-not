@@ -1,7 +1,7 @@
 'use client';
 
 
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import style from './page.module.css'
 import { useAppSelector } from '../redux/hooks';
 import TournamentList from '../components/TournamentList/TournamentList';
@@ -16,15 +16,20 @@ const Dashboard = (props : IDashboardProps) => {
   const user = useAppSelector(state => state?.userSlice)
   const [TabSelected, updateTabSelected] = useState <'managment_tournaments' | 'managment_users'>('managment_tournaments')
 
-  const is_regular_user = user?.role_id?.can_participate_tournaments && !user?.role_id?.can_managment_tournaments && !user?.role_id?.can_managment_users
-  const is_admin = user?.role_id?.can_managment_tournaments || user?.role_id?.can_managment_users
+  const [is_regular_user, setIsRegularUser] = useState<boolean>(false)
+  const [is_admin, setIsAdmin] = useState<boolean>(false)
 
+  useEffect(() => {
+    setIsRegularUser(user?.role_id?.can_participate_tournaments && !user?.role_id?.can_managment_tournaments && !user?.role_id?.can_managment_users ? true : false)
+    setIsAdmin(user?.role_id?.can_managment_tournaments || user?.role_id?.can_managment_users ? true : false)
+  }, [user])
+  
   return (  
     <div className={`${style.Dashboard} bg-primary`} >
       <div className={style.DashboardCard} >
 
         {is_regular_user ? 
-          <TournamentList is_regular_user={true} is_admin={false} user_id={user?._id} />
+          <TournamentList is_regular_user={true} is_admin={false} user_id={user?._id || ''} />
         : null}
 
         {is_admin ? 
@@ -45,11 +50,11 @@ const Dashboard = (props : IDashboardProps) => {
         : null}
 
         {is_admin && TabSelected === 'managment_tournaments' ? 
-          <TournamentList is_regular_user={false} is_admin={true}  user_id={user?._id}/>
+          <TournamentList is_regular_user={false} is_admin={true}  user_id={user?._id || ''}/>
         :null}
 
         {is_admin && TabSelected === 'managment_users' ? 
-          <UsersList user_id={user?._id} />
+          <UsersList user_id={user?._id || ''} />
         :null}
 
       </div>
