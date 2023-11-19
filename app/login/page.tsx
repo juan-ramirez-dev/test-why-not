@@ -42,8 +42,6 @@ const LoginPage = () => {
 
     if(response?.code === 200){
 
-      console.log('response', response)
-
       dispatch(LoginAction({isLoggedIn : true}))
       dispatch(updateUserAction({...response?.response}))
       router.push('/dashboard')

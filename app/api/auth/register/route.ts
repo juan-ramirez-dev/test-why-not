@@ -53,8 +53,6 @@ export const POST = async (request : Request) => {
     role_id : role?._id
   })
 
-  console.log('new_user', new_user)
-
   await createToken(user?._id)
 
   return NextResponse.json(createResponseSuccess({

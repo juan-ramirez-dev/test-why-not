@@ -26,7 +26,6 @@ const validateToken = async () => {
 
     return payload
   } catch (error) {
-    console.log('error', error)
     return false
   }
 

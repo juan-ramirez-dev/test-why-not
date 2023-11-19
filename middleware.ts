@@ -3,8 +3,6 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function middleware(request: NextRequest) {
 
-  console.log('=============================================')
-  
   const jwt = request.cookies.get("token")?.value || ''
   if (!!!jwt) return NextResponse.redirect(new URL("/login", request.url));
 
@@ -14,16 +12,12 @@ export async function middleware(request: NextRequest) {
       new TextEncoder().encode("SECRET_KEY_TO_GENERATE_TOKEN")
     );
 
-    console.log('payload', JSON.stringify(payload))
-    console.log('request.nextUrl.pathname', request.nextUrl.pathname)
-
     if(payload && (request.nextUrl.pathname.includes("/login") || request.nextUrl.pathname.includes("/register"))){
       return NextResponse.redirect(new URL("/dashboard", request.url));
     }
 
     return NextResponse.next();
   } catch (error) {
-    console.log('error', error);
     return NextResponse.redirect(new URL("/login", request.url));
   }
 }
