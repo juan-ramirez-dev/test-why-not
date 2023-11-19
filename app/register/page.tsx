@@ -27,7 +27,7 @@ const Page = () => {
   const dispatch = useAppDispatch()
   const router = useRouter()
   const auth = useAppSelector(state => state?.authSlice)
-  if(auth?.isLoggedIn) router.push('/dashboard')
+  if(auth?.isLoggedIn) router.replace('/dashboard')
   
   const [FormLoginInputs, updateFormLoginInputs] = useState <IFormLoginInputs>({
     name : '',
@@ -36,8 +36,6 @@ const Page = () => {
     slug_rol : '',
     confirm_email : ''
   })
-
-
 
   const onRegister = async () => {
 
@@ -68,13 +66,14 @@ const Page = () => {
       }
     })
 
-    console.log('response', response)
 
     if(response?.code === 200){
+
+      console.log('response', response)
       dispatch(LoginAction({isLoggedIn : true}))
       dispatch(updateUserAction({...response?.response}))
 
-      router.push('/dashboard')
+      router.replace('/dashboard')
     }
   }
 
