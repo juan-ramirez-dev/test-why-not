@@ -46,20 +46,19 @@ export const POST = async (request : Request) => {
   const new_pass = await bcrypt.hash(params?.password, 10);
 
   //@INFO: Creacion de usuario
-  const new_user = await Users.create({
+  await Users.create({
     email : params?.email,
     name : params?.name,
     password : new_pass,
     role_id : role?._id
   })
 
+  const new_user = await Users.findOne({ email : params?.email }).populate("role_id").lean();
+
   await createToken(user?._id)
 
   return NextResponse.json(createResponseSuccess({
     message : 'success',
-    data : {
-      ...new_user,
-      role_id : role
-    }
+    data : new_user
   }));
 }

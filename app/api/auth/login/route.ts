@@ -42,6 +42,8 @@ export const POST = async (request : Request, res : Response) => {
 
   await createToken(user?._id)
 
+  console.log('user', user)
+
   return NextResponse.json(createResponseSuccess({
     message : 'success',
     data : user

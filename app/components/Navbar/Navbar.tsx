@@ -6,6 +6,7 @@ import { useAppDispatch, useAppSelector } from '@/app/redux/hooks'
 import CustomButton from '../CustomButton/CustomButton'
 import { useRouter } from 'next/navigation'
 import { LogoutAction } from '@/app/redux/features/authSlice'
+import { clearUserAction } from '@/app/redux/features/userSlice'
 
 export interface INavbar {
 
@@ -19,6 +20,7 @@ const Navbar = (props : INavbar) => {
 
   const logOut = () => {
     dispatch(LogoutAction())
+    dispatch(clearUserAction())
     router.push('/')
   }
 
@@ -27,7 +29,7 @@ const Navbar = (props : INavbar) => {
 
       {isLoggedIn ? 
         <div className={style.navbarContainer} >
-          <CustomButton className={style.secondButton} text='Sign off' onClick={() => logOut()} />
+          <CustomButton className={style.firstButton} text='Sign off' onClick={() => logOut()} />
         </div>
       :
         <div className={style.navbarContainer} >
