@@ -6,6 +6,7 @@ export interface ICustomButton {
   text : string
   onClick : () => void
   className ?: string
+  disabled ?: boolean
 }
 
 const CustomButton = (props : ICustomButton) => {
@@ -14,6 +15,7 @@ const CustomButton = (props : ICustomButton) => {
     <button 
       className={`${style.CustomButton} ${props?.className}`}
       onClick={props?.onClick}
+      disabled={props?.disabled}
     >
       <p className={style.CustomButtonText}> 
         {props?.text} 

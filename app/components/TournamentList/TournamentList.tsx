@@ -9,7 +9,7 @@ import Swal from 'sweetalert2'
 export interface ITournamentList {
   name : string
   description : string
-  participants ?: UserState[]
+  participants ?: string[]
   createdBy ?: UserState
   _id ?: string
   createdAt ?: string | Date
@@ -33,6 +33,18 @@ const TournamentList = (props : ITournamentListProps) => {
   useEffect(() => {
     getTournamentList()
   }, [])
+
+  const getTournamentList = async () => {
+    const response = await http({
+      method : 'GET',
+      url : '/api/tournaments',
+      data : null
+    })
+
+    if(response?.code === 200){
+      setTournamentList(response?.response)
+    }
+  } 
 
   const openModal = (editMode: boolean, initialData?: ITournamentList) => {
     setIsEditMode(editMode);
@@ -76,24 +88,25 @@ const TournamentList = (props : ITournamentListProps) => {
     }
   };
 
-  const getTournamentList = async () => {
-    const response = await http({
-      method : 'GET',
-      url : '/api/tournaments',
-      data : null
-    })
-
-    if(response?.code === 200){
-      setTournamentList(response?.response)
-    }
-  } 
-
   const handleDeleteTournament = async (tournamentId : string | undefined) => {
     if(!tournamentId) return 
     const response = await http({
       method : 'DELETE',
       url : '/api/tournaments',
       data : { tournamentId }
+    })
+
+    if(response?.code === 200){
+      await getTournamentList()
+    }
+  }
+
+  const handleRegister = async (tournamentId : string | undefined) => {
+    if(!tournamentId) return 
+    const response = await http({
+      method : 'POST',
+      url : '/api/tournaments/register',
+      data : { tournamentId, userId : props?.user_id }
     })
 
     if(response?.code === 200){
@@ -113,7 +126,10 @@ const TournamentList = (props : ITournamentListProps) => {
       <div className={style.DashboardCardContainerTournaments} >
         {TournamentList?.length ? TournamentList.map((item : ITournamentList, idx : number) => 
           <div 
-            className={style.DashboardCardContainerTournamentsItem}
+            className={`
+              ${style.DashboardCardContainerTournamentsItem} 
+              ${item?.participants?.includes(props?.user_id) ? style.UserIncluded : ''}
+            `}
             key={idx}
           >
             <div>
@@ -131,9 +147,16 @@ const TournamentList = (props : ITournamentListProps) => {
             :null}
 
 
-            {props?.is_regular_user ? 
-              <CustomButton text='Register' onClick={() => openModal(true,item)} />
+            {props?.is_regular_user && !item?.participants?.includes(props?.user_id) ? 
+              <CustomButton 
+                text='Register' 
+                onClick={() => handleRegister(item?._id)}
+              />
             : null}
+
+            {props?.is_regular_user && item?.participants?.includes(props?.user_id) ? 
+              <p> <strong> You are already participating in this tournament </strong> </p>
+            :null}
 
           </div>
         ) : null}
