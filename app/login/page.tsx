@@ -10,7 +10,7 @@ import CustomInput from '../components/CustomInput/CustomInput';
 import { useRouter } from 'next/navigation';
 import { LoginAction } from '../redux/features/authSlice';
 import { updateUserAction } from '../redux/features/userSlice';
-import { useAppDispatch } from '../redux/hooks';
+import { useAppDispatch, useAppSelector } from '../redux/hooks';
 import Link from 'next/link';
 
 export interface IFormLoginInputs {
@@ -22,7 +22,9 @@ const Page = () => {
 
   const dispatch = useAppDispatch()
   const router = useRouter()
-  
+  const auth = useAppSelector(state => state?.authSlice)
+  if(auth?.isLoggedIn) router.push('/dashboard')
+
   const [FormLoginInputs, updateFormLoginInputs] = useState <IFormLoginInputs>({
     email : '',
     password : ''
