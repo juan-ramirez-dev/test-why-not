@@ -12,13 +12,13 @@ interface Role {
   __v: number;
 }
 
-interface UserState {
+export interface UserState {
   name: string;
   email: string;
   password: string;
   _id: string;
   created_at: string; // Ajusta este tipo de datos según lo que represente la propiedad
-  role_id: Role;
+  role_id ? : Role;
   createdAt: string;
   updatedAt: string;
   __v: number;

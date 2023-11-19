@@ -12,3 +12,31 @@
   max-width: 90%;
   background: white;
 }
+
+.DashboardCardContainerCards{
+  width: 450px;
+  height: auto;
+  margin: 16px auto;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+}
+
+.DashboardCardContainerCardsCard{
+  width: 100%;
+  height: 100%;
+  padding: 4px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.DashboardCardContainerCardsCard > p {
+  text-align: center;
+  color: white;
+}
