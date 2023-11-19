@@ -52,7 +52,7 @@ export const POST = async (request: Request) => {
 
     if(!name?.length  || name?.length > 99 || !description?.length || description?.length > 99){
       return NextResponse.json(createResponseFailed({
-        message: 'Maximum 100 characters in email and description'
+        message: 'Maximum 100 characters in title and description'
       }));
     }
 
@@ -97,7 +97,7 @@ export const PUT = async (request: Request) => {
 
     if(!name?.length  || name?.length > 99 || !description?.length || description?.length > 99){
       return NextResponse.json(createResponseFailed({
-        message: 'Maximum 100 characters in email and description'
+        message: 'Maximum 100 characters in title and description'
       }));
     }
 
