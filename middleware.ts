@@ -6,9 +6,7 @@ export async function middleware(request: NextRequest) {
   console.log('=============================================')
   
   const jwt = request.cookies.get("token")?.value || ''
-  console.log('jwt', jwt)
   if (!!!jwt) return NextResponse.redirect(new URL("/login", request.url));
-  console.log('PASO DEL IF')
 
   try {
     const { payload } = await jwtVerify(
@@ -25,6 +23,7 @@ export async function middleware(request: NextRequest) {
 
     return NextResponse.next();
   } catch (error) {
+    console.log('error', error);
     return NextResponse.redirect(new URL("/login", request.url));
   }
 }
