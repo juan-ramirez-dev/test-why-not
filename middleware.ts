@@ -4,6 +4,7 @@ import { NextRequest, NextResponse } from "next/server";
 export async function middleware(request: NextRequest) {
   
   const jwt = request.cookies.get("token")?.value || ''
+  console.log('jwt', jwt)
   if (!jwt) return NextResponse.redirect(new URL("/login", request.url));
 
   try {
