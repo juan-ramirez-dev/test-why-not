@@ -40,6 +40,8 @@ const LoginPage = () => {
       }
     })
 
+    console.log('response', response)
+
     if(response?.code === 200){
       dispatch(LoginAction({isLoggedIn : true}))
       dispatch(updateUserAction({...response?.response}))
