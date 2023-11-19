@@ -135,7 +135,7 @@ const Page = () => {
               name='slug_rol'
               value={FormLoginInputs?.slug_rol}
               placeholder='xxxx-xxxx-xxxx-xxxx'
-              label='Rol code'
+              label='Rol code (not required)'
             />
 
             <CustomButton onClick={() => onRegister()} text='Register' />  
