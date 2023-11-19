@@ -50,6 +50,12 @@ export const POST = async (request: Request) => {
       }));
     }
 
+    if(!name?.length  || name?.length > 99 || !description?.length || description?.length > 99){
+      return NextResponse.json(createResponseFailed({
+        message: 'Maximum 100 characters in email and description'
+      }));
+    }
+
     const newTournament = new Tournaments({
       name,
       description,
@@ -86,6 +92,12 @@ export const PUT = async (request: Request) => {
     if (!tournamentId || (!name && !description && !participants)) {
       return NextResponse.json(createResponseFailed({
         message: 'Missing required parameters',
+      }));
+    }
+
+    if(!name?.length  || name?.length > 99 || !description?.length || description?.length > 99){
+      return NextResponse.json(createResponseFailed({
+        message: 'Maximum 100 characters in email and description'
       }));
     }
 

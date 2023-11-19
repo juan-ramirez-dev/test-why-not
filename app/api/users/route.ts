@@ -86,6 +86,12 @@ export const PUT = async (request: Request) => {
       }));
     }
 
+    if(!name?.length  || name?.length > 99 || !email?.length || email?.length > 99){
+      return NextResponse.json(createResponseFailed({
+        message: 'Maximum 100 characters in email and full name'
+      }));
+    }
+
     const user = await Users.findById(userId).lean();
 
     if (!user) {
