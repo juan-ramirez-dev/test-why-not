@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { Lexend } from 'next/font/google'
 import './globals.css'
 import { Providers } from './redux/provider'
+import Navbar from './components/Navbar/Navbar'
 
 const font = Lexend({ subsets: ['latin'] })
 
@@ -19,6 +20,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={font.className}>
         <Providers>
+          <Navbar />
           {children}
         </Providers>
       </body>

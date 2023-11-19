@@ -1,0 +1,36 @@
+.Navbar{
+  width: 100%;
+  height: 64px;
+  display: flex;
+  justify-content: flex-end;
+  position: absolute;
+  top: 0px;
+  background: transparent;
+  padding: 32px;
+  box-shadow: 0px 4px 5px 0px rgba(0,0,0,0.19);
+  -webkit-box-shadow: 0px 4px 5px 0px rgba(0,0,0,0.19);
+  -moz-box-shadow: 0px 4px 5px 0px rgba(0,0,0,0.19);
+}
+
+
+.navbarContainer{
+  width: 30%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+}
+
+.secondButton{
+  background: #DD5522 !important;
+  border: 1px solid #DD5522 !important;
+}
+
+.firstButton{
+  background: transparent !important;
+  border: 1px solid #DD5522 !important;
+}
+
+.firstButton > p {
+  color: #DD5522 !important;
+}
