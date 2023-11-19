@@ -7,12 +7,16 @@ export const createInitialRoles = async () => {
     {
       name : 'Admin',
       slug : 'principal-admin',
-      can_create_tournaments : true
+      can_managment_tournaments : true,
+      can_managment_users : true,
+      can_participate_tournaments : false
     },
     {
       name : 'Participant',
       slug : 'default-participant',
-      can_create_tournaments : false
+      can_managment_tournaments : false,
+      can_managment_users : false,
+      can_participate_tournaments : true
     }
   ]
 

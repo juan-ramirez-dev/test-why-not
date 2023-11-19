@@ -36,7 +36,6 @@ const Page = () => {
 
   const onRegister = async () => {
 
-
     if(FormLoginInputs?.email !== FormLoginInputs?.confirm_email){
       return Swal.fire({
         icon : 'error',
@@ -108,7 +107,14 @@ const Page = () => {
               value={FormLoginInputs?.confirm_email}
               placeholder='xxxxxxxx@xxxxx.com'
               label='Confirm your email *'
-
+            />
+            <CustomInput 
+              type="text" 
+              onChange={onChange} 
+              name='name'
+              value={FormLoginInputs?.name}
+              placeholder='Stan Smith'
+              label='Full name*'
             />
             <CustomInput 
               type="password" 

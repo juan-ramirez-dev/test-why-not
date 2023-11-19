@@ -29,7 +29,7 @@ export const POST = async (request : Request, res : Response) => {
   }));
 
   //@INFO: Buscar usuario por email
-  const user = await Users.findOne({ email : params?.email }).lean();
+  const user = await Users.findOne({ email : params?.email }).populate("role_id").lean();
   if(!user) return NextResponse.json(createResponseFailed({
     message : 'User not found.'
   }));

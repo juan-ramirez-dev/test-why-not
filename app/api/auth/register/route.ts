@@ -8,6 +8,7 @@ import { createToken } from '@/app/utils/tokens';
 
 //@INFO Next and libraries
 import { NextResponse } from "next/server"
+import Roles from '@/app/models/Roles';
 const bcrypt = require('bcrypt');
 
 //@INFO Connect to database
@@ -37,21 +38,28 @@ export const POST = async (request : Request) => {
     message : 'Current this user exist.'
   }));
 
+  //@INFO: Buscar rol por slug.
+  params.slug_rol = params?.slug_rol || 'default-participant'
+  const role = await Roles.findOne({slug : params?.slug_rol}).lean()
+
   //@INFO: Creacion de contraseña encriptada.
   const new_pass = await bcrypt.hash(params?.password, 10);
 
-  const new_user_params = {
+  //@INFO: Creacion de usuario
+  const new_user = await Users.create({
     email : params?.email,
     name : params?.name,
-    password : new_pass
-  }
-
-  const new_user = await Users.create(new_user_params)
+    password : new_pass,
+    role_id : role?._id
+  })
 
   await createToken(user?._id)
 
   return NextResponse.json(createResponseSuccess({
     message : 'success',
-    data : new_user
+    data : {
+      ...new_user,
+      role_id : role
+    }
   }));
 }
