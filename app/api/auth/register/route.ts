@@ -41,7 +41,7 @@ export const POST = async (request : Request) => {
   //@INFO: Buscar rol por slug.
   params.slug_rol = params?.slug_rol || 'default-participant'
   const role = await Roles.findOne({slug : params?.slug_rol}).lean()
-  const default_role = role?.id ? role : await Roles.findOne({slug : 'default-participant'}).lean()
+  const default_role = role?._id ? role : await Roles.findOne({slug : 'default-participant'}).lean()
 
   //@INFO: Creacion de contraseña encriptada.
   const new_pass = await bcrypt.hash(params?.password, 10);
