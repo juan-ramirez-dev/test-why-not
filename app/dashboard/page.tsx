@@ -6,6 +6,7 @@ import style from './page.module.css'
 import { useAppSelector } from '../redux/hooks';
 import TournamentList from '../components/TournamentList/TournamentList';
 import Link from 'next/link';
+import UsersList from '../components/UsersList/UsersList';
 
 export interface IDashboardProps { 
 
@@ -48,7 +49,7 @@ const Dashboard = (props : IDashboardProps) => {
         :null}
 
         {is_admin && TabSelected === 'managment_users' ? 
-          <h2> managment_users </h2>
+          <UsersList user_id={user?._id} />
         :null}
 
       </div>

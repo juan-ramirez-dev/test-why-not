@@ -1,5 +1,5 @@
 //@INFO Models
-import Users from '@/app/models/Tournaments';
+import Users from '@/app/models/Users';
 
 //@INFO Utils
 import {dbConnect} from '@/app/utils/mongoose'

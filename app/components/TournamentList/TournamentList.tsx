@@ -2,8 +2,9 @@ import React, { useEffect, useState } from 'react'
 import { UserState } from '@/app/redux/features/userSlice'
 import style from './TournamentList.module.css'
 import { http } from '@/app/utils/http'
-import Modal from '@/app/api/tournaments/Modal/Modal'
+import Modal from '@/app/components/TournamentList/Modal/Modal'
 import CustomButton from '../CustomButton/CustomButton'
+import Swal from 'sweetalert2'
 
 export interface ITournamentList {
   name : string
@@ -45,6 +46,14 @@ const TournamentList = (props : ITournamentListProps) => {
   };
 
   const handleSaveTournament = async (data: ITournamentList, isEditMode : boolean) => {
+
+    if(!data?.name || !data?.description){
+      return Swal.fire({
+        icon : 'error',
+        title : 'Error',
+        text : 'Empty fields'
+      })
+    }
 
     let params : any = {
       name: data?.name,
