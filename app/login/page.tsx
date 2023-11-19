@@ -18,7 +18,7 @@ export interface IFormLoginInputs {
   password : string
 }
 
-const Page = () => {
+const LoginPage = () => {
 
   const dispatch = useAppDispatch()
   const router = useRouter()
@@ -103,4 +103,4 @@ const Page = () => {
   );
 }
  
-export default Page;
+export default LoginPage;
