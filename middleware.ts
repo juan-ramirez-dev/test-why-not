@@ -7,7 +7,8 @@ export async function middleware(request: NextRequest) {
   
   const jwt = request.cookies.get("token")?.value || ''
   console.log('jwt', jwt)
-  if (!jwt) return NextResponse.redirect(new URL("/login", request.url));
+  if (!!!jwt) return NextResponse.redirect(new URL("/login", request.url));
+  console.log('PASO DEL IF')
 
   try {
     const { payload } = await jwtVerify(
@@ -15,7 +16,7 @@ export async function middleware(request: NextRequest) {
       new TextEncoder().encode("SECRET_KEY_TO_GENERATE_TOKEN")
     );
 
-    console.log('payload', payload)
+    console.log('payload', JSON.stringify(payload))
     console.log('request.nextUrl.pathname', request.nextUrl.pathname)
 
     if(payload && (request.nextUrl.pathname.includes("/login") || request.nextUrl.pathname.includes("/register"))){
