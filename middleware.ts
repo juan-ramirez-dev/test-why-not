@@ -2,6 +2,8 @@ import { jwtVerify } from "jose";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function middleware(request: NextRequest) {
+
+  console.log('=============================================')
   
   const jwt = request.cookies.get("token")?.value || ''
   console.log('jwt', jwt)
@@ -14,6 +16,7 @@ export async function middleware(request: NextRequest) {
     );
 
     console.log('payload', payload)
+    console.log('request.nextUrl.pathname', request.nextUrl.pathname)
 
     if(payload && (request.nextUrl.pathname.includes("/login") || request.nextUrl.pathname.includes("/register"))){
       return NextResponse.redirect(new URL("/dashboard", request.url));
@@ -27,7 +30,7 @@ export async function middleware(request: NextRequest) {
 
 export const config = {
   matcher: [
-    // "/dashboard",
+    "/dashboard",
     "/profile"
   ],
 };
