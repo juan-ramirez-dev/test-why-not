@@ -13,6 +13,8 @@ export async function middleware(request: NextRequest) {
       new TextEncoder().encode("SECRET_KEY_TO_GENERATE_TOKEN")
     );
 
+    console.log('payload', payload)
+
     if(payload && (request.nextUrl.pathname.includes("/login") || request.nextUrl.pathname.includes("/register"))){
       return NextResponse.redirect(new URL("/dashboard", request.url));
     }
@@ -25,7 +27,7 @@ export async function middleware(request: NextRequest) {
 
 export const config = {
   matcher: [
-    "/dashboard",
+    // "/dashboard",
     "/profile"
   ],
 };

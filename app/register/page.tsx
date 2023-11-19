@@ -27,7 +27,7 @@ const Page = () => {
   const dispatch = useAppDispatch()
   const router = useRouter()
   const auth = useAppSelector(state => state?.authSlice)
-  if(auth?.isLoggedIn) router.replace('/dashboard')
+  if(auth?.isLoggedIn) router.push('/dashboard')
   
   const [FormLoginInputs, updateFormLoginInputs] = useState <IFormLoginInputs>({
     name : '',
@@ -73,7 +73,7 @@ const Page = () => {
       dispatch(LoginAction({isLoggedIn : true}))
       dispatch(updateUserAction({...response?.response}))
 
-      router.replace('/dashboard')
+      router.push('/dashboard')
     }
   }
 
