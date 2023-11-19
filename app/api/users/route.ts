@@ -73,15 +73,14 @@ export interface IPUTRequestUsers {
   userId: string;
   name?: string;
   email?: string;
-  password?: string;
-  role_id?: string; // ID del nuevo rol asociado al usuario
+  role_id?: string; 
 }
 
 export const PUT = async (request: Request) => {
   try {
-    const { userId, name, email, password, role_id } = await request.json() as IPUTRequestUsers;
+    const { userId, name, email, role_id } = await request.json() as IPUTRequestUsers;
 
-    if (!userId || (!name && !email && !password && !role_id)) {
+    if (!userId || (!name && !email && !role_id)) {
       return NextResponse.json(createResponseFailed({
         message: 'Missing required parameters',
       }));
@@ -97,7 +96,6 @@ export const PUT = async (request: Request) => {
 
     if (name) user.name = name;
     if (email) user.email = email;
-    if (password) user.password = password;
     if (role_id) user.role_id = role_id;
 
     await Users.findByIdAndUpdate(userId, { $set: user });
@@ -116,17 +114,23 @@ export const PUT = async (request: Request) => {
 
 export interface IDELETERequestUsers {
   userId: string;
+  current_user_id : string
 }
 
 export const DELETE = async (request: Request) => {
   try {
-    const { userId } = await request.json() as IDELETERequestUsers;
+    const { userId , current_user_id} = await request.json() as IDELETERequestUsers;
 
-    if (!userId) {
+    if (!userId || !current_user_id) {
       return NextResponse.json(createResponseFailed({
         message: 'Missing required parameters',
       }));
     }
+
+    const current_user = await Users.findOne({_id : current_user_id}).populate('role_id', 'can_managment_users').select('_id role_id').lean()
+
+    if(!current_user) return NextResponse.json(createResponseFailed({message : 'User not found'}))
+    if(!current_user.role_id.can_managment_users) return NextResponse.json(createResponseFailed({message : 'You dont have permission to eliminate users'}))
 
     const deletedUser = await Users.findByIdAndDelete(userId).lean();
 

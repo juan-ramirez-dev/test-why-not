@@ -48,7 +48,7 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, onSave, initialData }) =
               name="name"
               value={UserData.name}
               onChange={handleInputChange}
-              label='Title'
+              label='Full name'
             />
             <CustomInput
               type="email"

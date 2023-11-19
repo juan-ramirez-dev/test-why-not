@@ -9,6 +9,7 @@ import Swal from 'sweetalert2'
 
 
 export interface UserStateProps {
+  user_id : string
 }
 
 
@@ -21,6 +22,7 @@ const UsersList = (props : UserStateProps) => {
   useEffect(() => {
     getUsersList()
   }, [])
+
   const getUsersList = async () => {
     const response = await http({
       method : 'GET',
@@ -74,6 +76,22 @@ const UsersList = (props : UserStateProps) => {
 
   const handleDeleteUsers = async (userId : string | undefined) => {
     if(!userId) return 
+    if(userId === props?.user_id){
+      return Swal.fire({
+        icon : 'error',
+        title : 'Error',
+        text : "you can't eliminate yourself"
+      })
+    }
+
+    const sureDelete = await Swal.fire({
+      title: "Do you want to delete this user?",
+      showDenyButton: true,
+      confirmButtonText: "Yes",
+    })
+
+    if(!sureDelete?.isConfirmed) return
+
     const response = await http({
       method : 'DELETE',
       url : '/api/users',
