@@ -19,6 +19,7 @@ export interface IPOSTRequest {
   password : string
   name : string
   slug_rol ?: string
+  is_google ? : boolean
 }
 
 
@@ -51,7 +52,8 @@ export const POST = async (request : Request) => {
     email : params?.email,
     name : params?.name,
     password : new_pass,
-    role_id : default_role?._id
+    role_id : default_role?._id,
+    is_google : params?.is_google || false
   })
 
   const new_user = await Users.findOne({ email : params?.email }).populate("role_id").lean();

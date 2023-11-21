@@ -3,8 +3,11 @@ import dynamic from 'next/dynamic'
 import { Lexend } from 'next/font/google'
 import { Providers } from './redux/provider'
 const Navbar = dynamic(() => import('./components/Navbar/Navbar'), { ssr: false })
+import { GoogleOAuthProvider } from '@react-oauth/google'
+import { GOOGLE_CLIENT_ID } from './utils/constants'
 
 import './globals.css'
+
 
 const font = Lexend({ subsets: ['latin'] })
 
@@ -21,10 +24,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={font.className}>
-        <Providers>
-          <Navbar />
-          {children}
-        </Providers>
+        <GoogleOAuthProvider clientId={GOOGLE_CLIENT_ID}>
+          <Providers>
+            <Navbar />
+            {children}
+          </Providers>
+        </GoogleOAuthProvider>
       </body>
     </html>
   )

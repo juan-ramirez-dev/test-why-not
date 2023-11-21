@@ -12,6 +12,8 @@ import { LoginAction } from '../redux/features/authSlice';
 import { updateUserAction } from '../redux/features/userSlice';
 import { useAppDispatch, useAppSelector } from '../redux/hooks';
 import Link from 'next/link';
+import { GoogleLogin } from '@react-oauth/google'
+import decodeJwt from '../utils/decodeJWT';
 
 export interface IFormLoginInputs {
   email : string
@@ -30,13 +32,15 @@ const LoginPage = () => {
     password : ''
   })
 
-  const onLogin = async () => {
+  const onLogin = async (customEmail ?: string, isGoogle ? : boolean) => {
+    
     const response = await http({
       url : '/api/auth/login',
       method: 'POST',
       data : {
         password : FormLoginInputs?.password || '',
-        email : FormLoginInputs?.email || ''
+        email : customEmail || FormLoginInputs?.email || '',
+        is_google : isGoogle || false
       }
     })
 
@@ -85,6 +89,14 @@ const LoginPage = () => {
             />
 
             <CustomButton onClick={() => onLogin()} text='Sign In' />  
+            <GoogleLogin
+              onSuccess={credentialResponse => {
+                if(credentialResponse?.credential){
+                  const {payload} = decodeJwt(credentialResponse?.credential)
+                  onLogin(payload?.email, true)
+                }
+              }}
+            />
 
             <div className={style.lineBig} />
             <div className={style.lineLittle} />

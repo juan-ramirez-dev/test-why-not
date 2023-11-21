@@ -6,6 +6,7 @@ const usersSchema = new Schema({
   email: { type: String, required: [true, 'email is required'], trim: true ,  maxLength : 100 },
   password: { type: String, required: [true, 'password is required'], trim: true },
   role_id: { type: Schema.Types.ObjectId, ref: 'Roles' },
+  is_google : {type : Schema.Types.Boolean}
 }, {
   timestamps : true
 })

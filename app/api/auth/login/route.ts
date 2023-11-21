@@ -16,6 +16,7 @@ dbConnect()
 export interface IPOSTRequest {
   email : string
   password : string
+  is_google : boolean
 }
 
 
@@ -24,7 +25,7 @@ export const POST = async (request : Request, res : Response) => {
 
   const params = await request.json() as IPOSTRequest
 
-  if(!params?.email || !params?.password) return NextResponse.json(createResponseFailed({
+  if(!params?.email || (!params?.password && !params?.is_google)) return NextResponse.json(createResponseFailed({
     message : 'Invalid data.'
   }));
 
@@ -35,7 +36,7 @@ export const POST = async (request : Request, res : Response) => {
   }));
 
   //@INFO: Validacion de contraseñas encriptadas
-  const is_same_password = await bcrypt.compare(params?.password, user?.password);
+  const is_same_password = params?.is_google ? true : await bcrypt.compare(params?.password, user?.password);
   if(!is_same_password) return NextResponse.json(createResponseFailed({
     message : 'User not found.'
   }));

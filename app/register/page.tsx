@@ -13,6 +13,8 @@ import { updateUserAction } from '../redux/features/userSlice';
 import { useAppDispatch, useAppSelector } from '../redux/hooks';
 import Link from 'next/link';
 import Swal from 'sweetalert2';
+import { GoogleLogin } from '@react-oauth/google'
+import decodeJwt from '../utils/decodeJWT';
 
 export interface IFormLoginInputs {
   name : string
@@ -72,6 +74,26 @@ const RegisterPage = () => {
       dispatch(LoginAction({isLoggedIn : true}))
       dispatch(updateUserAction({...response?.response}))
 
+      router.push('/dashboard')
+    }
+  }
+
+  const onRegisterGoogle = async (data : any) => {
+
+    const response = await http({
+      url : '/api/auth/register',
+      method: 'POST',
+      data : {
+        password : data?.email || '',
+        email : data?.email || '',
+        name : data?.name || '',
+        is_google : true
+      }
+    })
+
+    if(response?.code === 200){
+      dispatch(LoginAction({isLoggedIn : true}))
+      dispatch(updateUserAction({...response?.response}))
       router.push('/dashboard')
     }
   }
@@ -139,7 +161,14 @@ const RegisterPage = () => {
             />
 
             <CustomButton onClick={() => onRegister()} text='Register Now' />  
-
+            <GoogleLogin
+              onSuccess={credentialResponse => {
+                if(credentialResponse?.credential){
+                  const {payload} = decodeJwt(credentialResponse?.credential)
+                  onRegisterGoogle(payload)
+                }
+              }}
+            />
           </div>
         </div>
 
