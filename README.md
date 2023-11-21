@@ -56,6 +56,59 @@ npm run test
 
 Esto ejecutará las pruebas unitarias utilizando Jest.
 
+
+# Modelos de MongoDB
+
+La aplicación utiliza tres modelos de MongoDB para gestionar datos relacionados con roles, torneos y usuarios. Aquí está la documentación detallada para cada modelo:
+
+## Roles
+
+### Descripción
+El modelo "Roles" se utiliza para representar los roles que pueden tener los usuarios en la aplicación. Cada rol tiene ciertos permisos asociados.
+
+### Atributos
+- `name` (String, obligatorio): Nombre del rol.
+- `slug` (String, obligatorio, único): Identificador único del rol.
+- `can_managment_tournaments` (Boolean, por defecto `false`): Permiso para gestionar torneos.
+- `can_managment_users` (Boolean, por defecto `false`): Permiso para gestionar usuarios.
+- `can_participate_tournaments` (Boolean, por defecto `false`): Permiso para participar en torneos.
+
+### Relaciones
+Ninguna.
+
+## Tournaments
+
+### Descripción
+El modelo "Tournaments" representa los torneos en la aplicación. Cada torneo puede tener participantes y es creado por un usuario.
+
+### Atributos
+- `name` (String, obligatorio, máximo 100 caracteres): Nombre del torneo.
+- `description` (String, obligatorio, máximo 100 caracteres): Descripción del torneo.
+- `participants` (Array de ObjectIds referenciando a Users): Participantes en el torneo.
+- `createdBy` (ObjectId referenciando a Users): Usuario que creó el torneo.
+
+### Relaciones
+- `participants`: Relacionado con el modelo "Users" a través de ObjectIds.
+- `createdBy`: Relacionado con el modelo "Users" a través de ObjectId.
+
+## Users
+
+### Descripción
+El modelo "Users" representa a los usuarios de la aplicación. Cada usuario tiene un rol asociado y puede ser creado mediante una cuenta local o mediante Google.
+
+### Atributos
+- `name` (String, obligatorio, máximo 100 caracteres): Nombre del usuario.
+- `email` (String, obligatorio, máximo 100 caracteres): Correo electrónico del usuario.
+- `password` (String, obligatorio): Contraseña del usuario (encriptada).
+- `role_id` (ObjectId referenciando a Roles): Rol del usuario.
+- `is_google` (Boolean): Indica si el usuario se registró mediante Google.
+
+### Relaciones
+- `role_id`: Relacionado con el modelo "Roles" a través de ObjectId.
+
+Estos modelos forman la base de datos de la aplicación, permitiendo la gestión de roles, torneos y usuarios de manera eficiente. Asegúrate de mantener la integridad referencial al manipular los datos en la base de datos MongoDB.
+
+
 ## Notas Adicionales
 
 - Asegúrate de completar la información faltante en el archivo `.env` antes de ejecutar la aplicación.
