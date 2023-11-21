@@ -1,6 +1,6 @@
-# Nombre de la Aplicación
+# Why Not Prueba de Selección
 
-Descripción breve de la aplicación.
+MongoDB - Next.js
 
 ## Requisitos Previos
 
@@ -59,7 +59,4 @@ Esto ejecutará las pruebas unitarias utilizando Jest.
 ## Notas Adicionales
 
 - Asegúrate de completar la información faltante en el archivo `.env` antes de ejecutar la aplicación.
-- Personaliza las páginas, componentes y modelos según tus necesidades específicas.
 - Asegúrate de tener una instancia de MongoDB en ejecución para que la aplicación se conecte correctamente a la base de datos.
-
-¡Disfruta desarrollando con Next.js y MongoDB!
