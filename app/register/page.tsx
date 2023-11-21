@@ -22,7 +22,7 @@ export interface IFormLoginInputs {
   slug_rol : string
 }
 
-const Page = () => {
+const RegisterPage = () => {
 
   const dispatch = useAppDispatch()
   const router = useRouter()
@@ -138,7 +138,7 @@ const Page = () => {
               label='Rol code (not required)'
             />
 
-            <CustomButton onClick={() => onRegister()} text='Register' />  
+            <CustomButton onClick={() => onRegister()} text='Register Now' />  
 
           </div>
         </div>
@@ -153,4 +153,4 @@ const Page = () => {
   );
 }
  
-export default Page;
+export default RegisterPage;
