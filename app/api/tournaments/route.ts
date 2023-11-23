@@ -85,19 +85,20 @@ export interface IPUTRequest {
   name?: string;
   description?: string;
   participants?: string[]; // Array de IDs de usuarios
+  price ? : string
 }
 
 export const PUT = async (request: Request) => {
   try {
-    const { tournamentId, name, description, participants } = await request.json() as IPUTRequest;
+    const { tournamentId, name, description, participants, price } = await request.json() as IPUTRequest;
 
-    if (!tournamentId || (!name && !description && !participants)) {
+    if (!tournamentId || (!name && !description && !participants && !price)) {
       return NextResponse.json(createResponseFailed({
         message: 'Missing required parameters',
       }));
     }
 
-    if(!name?.length  || name?.length > 99 || !description?.length || description?.length > 99){
+    if(!price?.length || !name?.length  || name?.length > 99 || !description?.length || description?.length > 99){
       return NextResponse.json(createResponseFailed({
         message: 'Maximum 100 characters in title and description'
       }));
@@ -114,6 +115,7 @@ export const PUT = async (request: Request) => {
     if (name) tournament.name = name;
     if (description) tournament.description = description;
     if (participants) tournament.participants = participants;
+    if (price) tournament.price = Number(price);
 
     await Tournaments.findByIdAndUpdate(tournamentId, { $set: tournament });
 
