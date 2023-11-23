@@ -104,7 +104,7 @@ const UsersList = (props : UserStateProps) => {
   }
 
   return (
-    <div>
+    <div className='h-100 w-100' >
       <div className={style.DashboardCardContainerHeader} >
         <h3> Users List, </h3>
         <p> Here you can manage users, edit or delete users </p>

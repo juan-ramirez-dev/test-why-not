@@ -4,7 +4,7 @@
 
 .DashboardCardContainerTournaments{
   width: 100%;
-  height: inherit;
+  height: 45vh;
   overflow-y: auto;
   overflow-x: hidden;
   display: grid;

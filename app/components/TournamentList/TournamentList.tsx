@@ -119,7 +119,7 @@ const TournamentList = (props : ITournamentListProps) => {
   }
 
   return (
-    <div>
+    <div className='h-100 w-100'  >
       <div className={style.DashboardCardContainerHeader} >
         <h3> Tournament List, </h3>
         {props?.is_admin ? <p> Here you can manage tournaments, create, edit or delete tournaments </p> :null}
