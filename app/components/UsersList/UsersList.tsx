@@ -95,7 +95,7 @@ const UsersList = (props : UserStateProps) => {
     const response = await http({
       method : 'DELETE',
       url : '/api/users',
-      data : { userId }
+      data : { userId, current_user_id : props?.user_id }
     })
 
     if(response?.code === 200){
