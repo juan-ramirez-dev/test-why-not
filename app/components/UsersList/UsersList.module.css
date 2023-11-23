@@ -31,3 +31,12 @@
 .DashboardCardContainerUsersItem > p {
   font-size: 16px;
 }
+
+
+
+@media (max-width : 768px) {
+  .DashboardCardContainerUsers{
+    display: flex;
+    flex-direction: column;
+  }
+}

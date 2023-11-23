@@ -35,3 +35,10 @@
 .UserIncluded{
   background: #8BC34A;
 }
+
+@media (max-width : 768px) {
+  .DashboardCardContainerTournaments{
+    display: flex;
+    flex-direction: column;
+  }
+}
