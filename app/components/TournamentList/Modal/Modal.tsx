@@ -18,7 +18,7 @@ interface ModalProps {
 const Modal: React.FC<ModalProps> = ({ isOpen, onClose, onSave, isEditMode, initialData }) => {
 
   const [ITournamentList, setITournamentList] = useState<ITournamentList>(
-    initialData || { name: '', description: '' }
+    initialData || { name: '', description: '' , price : 0}
   );
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -55,6 +55,13 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, onSave, isEditMode, init
               value={ITournamentList.description}
               onChange={handleInputChange}
               label='Description'
+            />
+            <CustomInput
+              type="number"
+              name="price"
+              value={ITournamentList.price?.toString()}
+              onChange={handleInputChange}
+              label='Price'
             />
             <div className={style.modalButtons}>
               <CustomButton 

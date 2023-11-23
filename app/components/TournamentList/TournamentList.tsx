@@ -5,10 +5,12 @@ import { http } from '@/app/utils/http'
 import Modal from '@/app/components/TournamentList/Modal/Modal'
 import CustomButton from '../CustomButton/CustomButton'
 import Swal from 'sweetalert2'
+import { useRouter } from "next/navigation";
 
 export interface ITournamentList {
   name : string
   description : string
+  price : number
   participants ?: string[]
   createdBy ?: UserState
   _id ?: string
@@ -30,6 +32,8 @@ const TournamentList = (props : ITournamentListProps) => {
   const [tournamentFormData, setTournamentFormData] = useState<ITournamentList | null>(null);
   const [isEditMode, setIsEditMode] = useState(false);
 
+  const router = useRouter();
+
   useEffect(() => {
     getTournamentList()
   }, [])
@@ -48,7 +52,7 @@ const TournamentList = (props : ITournamentListProps) => {
 
   const openModal = (editMode: boolean, initialData?: ITournamentList) => {
     setIsEditMode(editMode);
-    setTournamentFormData(initialData || { name: '', description: '' });
+    setTournamentFormData(initialData || { name: '', description: '' , price : 0});
     setIsModalOpen(true);
   };
 
@@ -59,7 +63,7 @@ const TournamentList = (props : ITournamentListProps) => {
 
   const handleSaveTournament = async (data: ITournamentList, isEditMode : boolean) => {
 
-    if(!data?.name || !data?.description){
+    if(!data?.name || !data?.description || !data?.price){
       return Swal.fire({
         icon : 'error',
         title : 'Error',
@@ -71,7 +75,8 @@ const TournamentList = (props : ITournamentListProps) => {
       name: data?.name,
       description: data?.description,
       participants: isEditMode ? tournamentFormData?.participants : [],
-      createdBy: props?.user_id
+      createdBy: props?.user_id,
+      price : data?.price,
     }
 
     if(isEditMode) params = {...params, tournamentId : tournamentFormData?._id}
@@ -103,15 +108,14 @@ const TournamentList = (props : ITournamentListProps) => {
 
   const handleRegister = async (tournamentId : string | undefined) => {
     if(!tournamentId) return 
+    
     const response = await http({
       method : 'POST',
-      url : '/api/tournaments/register',
-      data : { tournamentId, userId : props?.user_id }
+      url : '/api/payments/mercado-pago/checkout',
+      data : { tournament_id : tournamentId, user_id : props?.user_id }
     })
 
-    if(response?.code === 200){
-      await getTournamentList()
-    }
+    if(response) router.push(response.url)
   }
 
   return (
@@ -135,6 +139,7 @@ const TournamentList = (props : ITournamentListProps) => {
             <div>
               <p> <strong> Title: </strong> {item?.name} </p>
               <p> <strong> Description: </strong> {item?.description} </p>
+              <p> <strong> Price: </strong> {item?.price} </p>
               <p> <strong> Author: </strong> {item?.createdBy?.name} </p>
             </div>
 

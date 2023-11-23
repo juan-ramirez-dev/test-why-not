@@ -38,19 +38,20 @@ export interface IPOSTRequest {
   description: string;
   participants: string[]; // Array de IDs de usuarios
   createdBy: string; // ID del usuario que crea el torneo
+  price: number
 }
 
 export const POST = async (request: Request) => {
   try {
-    const { name, description, participants, createdBy } = await request.json() as IPOSTRequest;
+    const { name, description, participants, createdBy , price} = await request.json() as IPOSTRequest;
 
-    if (!name || !description || !participants || !createdBy) {
+    if (!name || !description || !participants || !createdBy || !price) {
       return NextResponse.json(createResponseFailed({
         message: 'Missing required parameters',
       }));
     }
 
-    if(!name?.length  || name?.length > 99 || !description?.length || description?.length > 99){
+    if(!price || !name?.length  || name?.length > 99 || !description?.length || description?.length > 99){
       return NextResponse.json(createResponseFailed({
         message: 'Maximum 100 characters in title and description'
       }));
@@ -61,6 +62,7 @@ export const POST = async (request: Request) => {
       description,
       participants,
       createdBy,
+      price : Number(price)
     });
 
     await newTournament.save();

@@ -6,7 +6,8 @@ const TournamentsSchema = new Schema({
   participants : [
     { type: Schema.Types.ObjectId, ref: 'Users' }
   ],
-  createdBy : { type: Schema.Types.ObjectId, ref: 'Users' }
+  createdBy : { type: Schema.Types.ObjectId, ref: 'Users' },
+  price : { type: Number, required: [true, 'price is required'], trim: true,  maxLength : 100 }
 }, {
   timestamps : true
 })
