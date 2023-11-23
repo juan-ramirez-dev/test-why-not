@@ -20,6 +20,8 @@ Crea un archivo `.env` en la raíz del proyecto con las siguientes claves privad
 MONGODB_URI=
 SECRET_KEY_TO_GENERATE_TOKEN=
 GOOGLE_CLIENT_ID=
+ACCESS_TOKEN_MERCADOPAGO=
+PUBLIC_URL=http://localhost:3000
 ```
 
 ## Ejecución
@@ -86,6 +88,7 @@ El modelo "Tournaments" representa los torneos en la aplicación. Cada torneo pu
 - `description` (String, obligatorio, máximo 100 caracteres): Descripción del torneo.
 - `participants` (Array de ObjectIds referenciando a Users): Participantes en el torneo.
 - `createdBy` (ObjectId referenciando a Users): Usuario que creó el torneo.
+- `price` (Number): Precio del torneo.
 
 ### Relaciones
 - `participants`: Relacionado con el modelo "Users" a través de ObjectIds.
@@ -108,6 +111,36 @@ El modelo "Users" representa a los usuarios de la aplicación. Cada usuario tien
 
 Estos modelos forman la base de datos de la aplicación, permitiendo la gestión de roles, torneos y usuarios de manera eficiente. Asegúrate de mantener la integridad referencial al manipular los datos en la base de datos MongoDB.
 
+
+# Integración de Mercado Pago
+
+La aplicación ha integrado la pasarela de pagos de Mercado Pago para gestionar transacciones relacionadas con los torneos. A continuación, se proporciona una breve explicación de la integración:
+
+## Configuración
+
+1. **Obtención de Credenciales de Mercado Pago**: Regístrate en [Mercado Pago](https://www.mercadopago.com/) y obtén las credenciales necesarias, como la clave de integración.
+
+2. **Configuración en la Aplicación**: Agrega las claves de integración de Mercado Pago en el archivo `.env` de la aplicación:
+
+```env
+ACCESS_TOKEN_MERCADOPAGO=
+```
+
+## Proceso de Pago
+
+1. **Iniciación del Pago**: Cuando un usuario decide participar en un torneo con un precio asociado, se inicia el proceso de pago. La aplicación generará una orden de pago utilizando las credenciales de Mercado Pago.
+
+2. **Redirección a Mercado Pago**: El usuario será redirigido a la página de pago de Mercado Pago, donde podrá ingresar la información de la tarjeta.
+
+3. **Confirmación del Pago**: Una vez que el usuario completa la transacción en Mercado Pago, la pasarela enviará una notificación a la aplicación con el estado de la transacción.
+
+4. **Actualización en la Aplicación**: La aplicación actualiza el estado del torneo y la lista de participantes según el resultado de la transacción.
+
+## Tarjetas de Prueba
+
+Para realizar pruebas con tarjetas de prueba en el entorno de desarrollo, puedes utilizar las tarjetas de prueba proporcionadas por Mercado Pago. Consulta la [documentación de Mercado Pago](https://www.mercadopago.com.co/developers/es/docs/checkout-api/additional-content/your-integrations/test/cards) para obtener información sobre las tarjetas de prueba disponibles y cómo utilizarlas en tu aplicación.
+
+¡Ahora la aplicación está lista para gestionar pagos de torneos mediante la integración con Mercado Pago!
 
 ## Notas Adicionales
 
