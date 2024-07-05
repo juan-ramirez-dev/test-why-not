@@ -1,4 +1,4 @@
-# Why Not Prueba de Selección
+# Mercado Pago template
 
 MongoDB - Next.js
 
